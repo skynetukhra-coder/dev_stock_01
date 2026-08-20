@@ -1,0 +1,13 @@
+{
+  "name": "prophecy-mobile",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Prophecy Expo mobile application placeholder",
+  "scripts": {
+    "test": "node --test tests/bootstrap.test.mjs",
+    "lint": "node --check src/index.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

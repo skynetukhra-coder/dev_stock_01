@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+
+# Node / Expo
+node_modules/
+.expo/
+dist/
+
+# Secrets and local state
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+service-account*.json
+trade_state.json
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
