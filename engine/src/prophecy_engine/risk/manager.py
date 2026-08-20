@@ -162,7 +162,11 @@ class RiskManager:
 
         # 10. Duplicate Signal Cooldown Lock
         for prev in context.recent_signals:
-            if prev.symbol == signal.symbol and prev.case_number == signal.case_number:
+            if (
+                prev.id != signal.id
+                and prev.symbol == signal.symbol
+                and prev.case_number == signal.case_number
+            ):
                 elapsed = (now - to_ist(prev.created_at)).total_seconds()
                 if 0 <= elapsed < active_policy.duplicate_cooldown_seconds:
                     reasons.append(RiskRejectionReason.DUPLICATE_SIGNAL_LOCKED)
