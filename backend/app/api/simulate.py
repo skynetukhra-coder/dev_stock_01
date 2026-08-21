@@ -5,9 +5,9 @@ from __future__ import annotations
 import dataclasses
 from datetime import date, datetime
 from typing import Any
-from fastapi import APIRouter, HTTPException
 
-from prophecy_engine.domain.enums import SignalStatus, SignalType
+from fastapi import APIRouter, HTTPException
+from prophecy_engine.domain.enums import SignalStatus
 from prophecy_engine.domain.models import Signal
 from prophecy_engine.indicators.engine import IndicatorSnapshot
 from prophecy_engine.market.candles import Timeframe
@@ -16,6 +16,7 @@ from prophecy_engine.market.option_chain import OptionChain, OptionStrike
 from prophecy_engine.market.sessions import IST
 from prophecy_engine.strategy.cases import REQUIRED_TIMEFRAMES, evaluate_all_cases
 from prophecy_engine.strategy.option_selector import OptionSelectionPolicy, OptionSelector
+
 from ..services.engine_service import engine_service
 
 router = APIRouter(prefix="/simulate", tags=["Strategy Simulation & Validation"])
@@ -315,7 +316,10 @@ def simulate_case(case_number: int) -> dict[str, Any]:
     if selection_result.contract is not None:
         contracts = [selection_result.contract]
     elif selection_result.straddle is not None:
-        contracts = [selection_result.straddle.call_contract, selection_result.straddle.put_contract]
+        contracts = [
+            selection_result.straddle.call_contract,
+            selection_result.straddle.put_contract,
+        ]
     else:
         raise HTTPException(
             status_code=500,

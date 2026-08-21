@@ -1,7 +1,9 @@
 """Interactive Prophecy Trading Engine Web Dashboard."""
 
-from fastapi import APIRouter
-from fastapi.responses import HTMLResponse
+from pathlib import Path
+
+from fastapi import APIRouter, HTTPException
+from fastapi.responses import FileResponse, HTMLResponse
 
 router = APIRouter(tags=["Dashboard"])
 
@@ -198,6 +200,7 @@ DASHBOARD_HTML = """<!DOCTYPE html>
         </div>
       </div>
       <div class="status-group">
+        <a href="/docs/pdf" download class="btn" style="background: rgba(56, 189, 248, 0.15); color: var(--accent); text-decoration: none; padding: 6px 12px; font-size: 0.8rem; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.3);">📥 Download PDF Guide</a>
         <span class="live-dot" id="sse-dot"></span>
         <span id="sse-status">STREAM CONNECTED</span>
         <span style="color: var(--accent);">NIFTY 50: ₹24,000.00</span>
@@ -525,3 +528,17 @@ DASHBOARD_HTML = """<!DOCTYPE html>
 def get_dashboard() -> HTMLResponse:
     """Serve the interactive Prophecy strategy cases and contract selector dashboard."""
     return HTMLResponse(content=DASHBOARD_HTML)
+
+
+@router.get("/docs/pdf")
+@router.get("/download/pdf")
+def download_pdf_guide() -> FileResponse:
+    """Download the official Prophecy Run & Deployment PDF guide."""
+    pdf_path = Path(__file__).parents[3] / "docs" / "Prophecy_Run_and_Deployment_Guide.pdf"
+    if not pdf_path.exists():
+        raise HTTPException(status_code=404, detail="PDF guide not found")
+    return FileResponse(
+        path=str(pdf_path),
+        filename="Prophecy_Run_and_Deployment_Guide.pdf",
+        media_type="application/pdf",
+    )
