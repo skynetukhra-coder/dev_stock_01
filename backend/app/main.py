@@ -7,11 +7,13 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .api import (
     backtest_router,
+    dashboard_router,
     health_router,
     orders_router,
     positions_router,
     risk_router,
     signals_router,
+    simulate_router,
     stream_router,
 )
 
@@ -39,6 +41,8 @@ def create_app() -> FastAPI:
     )
 
     # Register API routers
+    application.include_router(dashboard_router)
+    application.include_router(simulate_router)
     application.include_router(health_router)
     application.include_router(signals_router)
     application.include_router(orders_router)

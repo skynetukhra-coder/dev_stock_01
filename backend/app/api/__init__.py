@@ -1,11 +1,13 @@
 """API Routers."""
 
 from .backtest import router as backtest_router
+from .dashboard import router as dashboard_router
 from .health import router as health_router
 from .orders import router as orders_router
 from .positions import router as positions_router
 from .risk import router as risk_router
 from .signals import router as signals_router
+from .simulate import router as simulate_router
 from .stream import router as stream_router
 
 __all__ = [
@@ -16,4 +18,6 @@ __all__ = [
     "risk_router",
     "backtest_router",
     "stream_router",
+    "dashboard_router",
+    "simulate_router",
 ]
